@@ -84,5 +84,6 @@ OpenCV(Open Source Computer Vision Library)是一個集合數百種演算法的�
 - [Install OpenCV 2.4.X with QT Creator on Windows](http://ccw1986.blogspot.tw/2014/05/opencvinstall-opencv24x-with-qt-52-on.html)
 - [Install OpenCV 2.4.8 with Dev-C++ 5.7.1 on Windows](http://ccw1986.blogspot.tw/2014/09/dev-c571-opencv-248-opencv-with-dev-c.html)
 - [Install Python and OpenCV 3.1 on Ubuntu 14.04 64bits](http://ccw1986.blogspot.tw/2016/03/install-python-and-opencv-31-on-ubuntu.html)
+- [Install Python and OpenCV 3 on Raspbian Jessie](http://ccw1986.blogspot.tw/2016/03/install-python-and-opencv-3-on-raspbian.html)
 - [Build OpenCV 2.4.8 Library on Windows using MinGW Compiler](http://ccw1986.blogspot.tw/2014/06/windowmingwopencv-248-install-opencv.html)
 - [Build OpenCV 2.4.8 Static Library on Ubuntu](http://ccw1986.blogspot.tw/2014/03/opencvbuild-opencv-static-library-on.html)
