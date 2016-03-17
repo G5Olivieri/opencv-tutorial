@@ -1,7 +1,9 @@
-# opencv-tutorial
+# Opencv-Tutorial
 
 ![opencv](http://opencv.org/wp-content/themes/opencv/images/logo.png)
+
 OpenCV(Open Source Computer Vision Library)是一個集合數百種演算法的跨平台電腦視覺庫。只要是針對影像做辨識、操作、分析等，不管是要做人臉辨識、物件辨識、車牌辨識、人形偵測、物件追蹤、影像壓縮、影像加密等各種影像處理，OpenCV確實是一個很好的輔助工具，目前已經可以在Windows、Linux、iOS及Android平台上使用，支援的程式語言有C/C++、Java、Python、Matlab、Ruby及C#等，已經是大部分影像處理使用者必備的涵式庫了，以下會介紹OpenCV的主要功能、使用方式及範例程式碼。
+
 
 ## 模組 (Module)
 
@@ -75,3 +77,11 @@ OpenCV(Open Source Computer Vision Library)是一個集合數百種演算法的�
 - [EmguCV](http://www.emgu.com/wiki/index.php/Main_Page) - C#版本(最新版本3.1.0、2.4.10)
 - [OpenCVSharp](https://github.com/shimat/opencvsharp) - C# .NET Framework(最新版本3.1.0、2.4.10)
 - [Adaptive Vision Studio](http://www.adaptive-vision.com/en/software/) - 以資料流程 (dataflow) 為基礎，專為機器視覺工程師的視覺環境編程軟體
+
+## 安裝 (Installer)
+- [Install OpenCV 2.3.1 with Visual Studio 2008 on Windows](http://ccw1986.blogspot.tw/2013/01/opencvvisual-studio-2008-opencv-231.html)
+- [Install OpenCV 2.4.4 with Visual Studio 2010 on Windows](http://ccw1986.blogspot.tw/2013/06/opencvvisual-studio-2010-opencv-244.html)
+- [Install OpenCV 2.4.X with QT Creator on Windows](http://ccw1986.blogspot.tw/2014/05/opencvinstall-opencv24x-with-qt-52-on.html)
+- [Install OpenCV 2.4.8 with Dev-C++ 5.7.1 on Windows](http://ccw1986.blogspot.tw/2014/09/dev-c571-opencv-248-opencv-with-dev-c.html)
+- [Build OpenCV 2.4.8 Library on Windows using MinGW Compiler](http://ccw1986.blogspot.tw/2014/06/windowmingwopencv-248-install-opencv.html)
+- [Build OpenCV 2.4.8 Static Library on Ubuntu](http://ccw1986.blogspot.tw/2014/03/opencvbuild-opencv-static-library-on.html)
