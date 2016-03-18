@@ -97,6 +97,7 @@ OpenCV(Open Source Computer Vision Library)是一個集合數百種演算法的�
 ## 視訊操作 (Camera Operation)
 - [Capture Image from Camera using OpenCV](http://ccw1986.blogspot.tw/2014/05/opencv-capture-images-from-camera-in.html)
 - [Set or Get Property from Camera using OpenCV](http://ccw1986.blogspot.tw/2014/06/opencv-how-to-set-or-get-property-from.html)
+- [Get a list of Camera Devices using OpenCV](http://ccw1986.blogspot.tw/2015/01/opencv-get-list-of-camera-devices-using.html)
 
 ## 影像操作 (Image Operation)
 - [Resize and Rotate Image using OpenCV](http://ccw1986.blogspot.tw/2012/11/opencv_18.html)
