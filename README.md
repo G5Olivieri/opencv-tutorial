@@ -88,5 +88,15 @@ OpenCV(Open Source Computer Vision Library)是一個集合數百種演算法的�
 - [Build OpenCV 2.4.8 Library on Windows using MinGW Compiler](http://ccw1986.blogspot.tw/2014/06/windowmingwopencv-248-install-opencv.html)
 - [Build OpenCV 2.4.8 Static Library on Ubuntu](http://ccw1986.blogspot.tw/2014/03/opencvbuild-opencv-static-library-on.html)
 
+## 基本操作 (Base Operation)
+- [Basic Matrix Operation](http://ccw1986.blogspot.tw/2014/01/opencv-matrix-basics.html)
+- [Convert Binary Data to OpenCV Image Format](http://ccw1986.blogspot.tw/2014/05/opencvopencv.html)
+- [Mouse Control on OpenCV GUI](http://ccw1986.blogspot.tw/2015/06/opencvevent-setmousecallback.html)
+- [OpenCV Get Pixel Value from Mat](http://ccw1986.blogspot.tw/2015/11/opencv-opencv-get-pixel-value-from-mat.html)
 
-{% gist 8f37726ef001a3de41c7 %}
+## 視訊操作 (Camera Operation)
+- [Capture Image from Camera using OpenCV](http://ccw1986.blogspot.tw/2014/05/opencv-capture-images-from-camera-in.html)
+- [Set or Get Property from Camera using OpenCV](http://ccw1986.blogspot.tw/2014/06/opencv-how-to-set-or-get-property-from.html)
+
+## 影像操作 (Image Operation)
+- [Resize and Rotate Image using OpenCV](http://ccw1986.blogspot.tw/2012/11/opencv_18.html)
