@@ -88,5 +88,6 @@ OpenCV(Open Source Computer Vision Library)是一個集合數百種演算法的�
 - [Build OpenCV 2.4.8 Library on Windows using MinGW Compiler](http://ccw1986.blogspot.tw/2014/06/windowmingwopencv-248-install-opencv.html)
 - [Build OpenCV 2.4.8 Static Library on Ubuntu](http://ccw1986.blogspot.tw/2014/03/opencvbuild-opencv-static-library-on.html)
 
-
+```
 {% gist 8f37726ef001a3de41c7 Basic Matrix Operation.md %}
+```
