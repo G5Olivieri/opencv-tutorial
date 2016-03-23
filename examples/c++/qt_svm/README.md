@@ -118,6 +118,8 @@ CV_32FC1 浮點數型態
 - SVM::EPS_SVR (103)
 - SVM::NU_SVR (104)
 
+SVC代表分類(Classification)，SVR代表回歸(Regression)
+
 #### SVM::C_SVC
 
 (C-Support Vector Classification)
@@ -145,9 +147,95 @@ C = (0~1)
 (epsilon-Support Vector Regression) 
 epsilon類支持向量回歸機。訓練集中的特征向量和擬合出來的超平面的距離需要小於p。異常值懲罰因子C被采用。
 
+`p`這個參數必須大於0 ，可透過`SVM::setP(value)`設定，否則會出現`The parameter p must be positive`的錯誤訊息。
+
 #### SVM::NU_SVR
 
 (nu-Support Vector Regression)
 nu類支持向量回歸機。 nu代替了p。
 
+
+
+### KernelTypes 
+
+- SVM::CUSTOM (-1)
+- SVM::LINEAR (0)
+- SVM::POLY (1)
+- SVM::RBF (2)
+- SVM::SIGMOID (3)
+- SVM::CHI2 (4)
+- SVM::INTER (5)
+
+
+#### SVM::LINEAR
+
+線性內核。沒有任何向映射至高維空間，線性區分（或回歸）在原始特征空間中被完成
+d(x,y) = x•y == (x,y)
+
+#### SVM::POLY
+
+多項式內核 
+d(x,y) = (gamma*(x•y)+coef0)degree
+
+#### SVM::RBF
+
+Radial basis function (RBF), a good choice in most cases
+基於徑向的函數，對於大多數情況都是一個較好的選擇
+d(x,y) = exp(-gamma*|x-y|2)
+
+#### SVM::SIGMOID
+
+Sigmoid函數內核
+d(x,y) = tanh(gamma*(x•y)+coef0)
+
+#### SVM::CHI2
+
+
+### degree
+
+內核函數 (default 0) (POLY)
+
+### gamma
+
+內核函數 (default 1)(POLY / RBF / SIGMOID / CHI2)
+
+### coef0
+
+內核函數 (default 0)(POLY / SIGMOID)
+
+### p
+
+Set the epsilon in loss function of epsilon-SVR (default 0)(EPS_SVR)
+
+### C
+
+Set the parameter C of C-SVC, epsilon-SVR, and nu-SVR (default 1)(C_SVC / EPS_SVR / NU_SVR)
+
+### nu
+
+set the parameter nu of nu-SVC, one-class SVM, and nu-SVR (default 0)(NU_SVC / ONE_CLASS / NU_SVR)
+
+### classWeights
+
+可選權重，賦給指定的類別。一般乘以C以後去影響不同類別的錯誤分類懲罰項。權重越大，某一類別的誤分類數據的懲罰項就越大。
+
+### termCrit
+
+SVM的迭代訓練過程的中止條件，解决部分受約束二次最優問題。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[A tutorial on support vector machines for pattern recognition](http://www.svms.org/tutorials/Burges1998.pdf)
 [LIBSVM: A Library for Support Vector Machines](http://www.csie.ntu.edu.tw/~cjlin/papers/libsvm.pdf)
