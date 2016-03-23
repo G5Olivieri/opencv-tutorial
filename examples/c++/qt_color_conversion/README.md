@@ -62,26 +62,40 @@ cv::cvtColor(srcImg, bgr2hsvImg, cv::COLOR_BGR2HSV);
 
 ### RGB <--> YCrCb
 ![](http://docs.opencv.org/2.4/_images/math/76c3f5fad2fceb004b65ff24934b113ed62381b7.png)
+
 ![](http://docs.opencv.org/2.4/_images/math/d6f3970cdf54f4782f59fb96052d98df88731949.png)
 
 ### RGB <--> HSV
 ![](http://docs.opencv.org/2.4/_images/math/7be483aa0fb72e56fa54c7cc754c149c8c1c80b1.png)
+
 ![](http://docs.opencv.org/2.4/_images/math/75071d1d50b8ea1d3d0aa0530d5e848e5748666d.png)
+
 ![](http://docs.opencv.org/2.4/_images/math/9208f149119189c111d1250c1b628f452e68e4b2.png)
 
 ### RGB <--> HLS
 ![](http://docs.opencv.org/2.4/_images/math/c53957c2e14819ba58b2c36819265318560bafed.png)
+
 ![](http://docs.opencv.org/2.4/_images/math/4a775f57b71707b736edb37af1b945c7a59238a6.png)
+
 ![](http://docs.opencv.org/2.4/_images/math/2cc20c39cb81730800c53c0aee591ae1fa9c3eeb.png)
+
 ![](http://docs.opencv.org/2.4/_images/math/a9c8dafccf4d3869bf5c29be11d3da994f2cae7d.png)
+
 ![](http://docs.opencv.org/2.4/_images/math/009b2c865204c9e3a13ba53ee1e6a11f0a696623.png)
 
 ### RGB <--> CIE L*a*b*
 ![](http://docs.opencv.org/2.4/_images/math/0b40a48524601a0d685d08f6e99494dd2abca9cd.png)
+
 ![](http://docs.opencv.org/2.4/_images/math/f339c7a01c8c392d83d04dc3cde0627d0d5aee4e.png)
+
 ![](http://docs.opencv.org/2.4/_images/math/aa85b5b8031add20f0825aa37750dc8b8789aa7a.png)
+
 ![](http://docs.opencv.org/2.4/_images/math/45d31c15f8cc5532bd832c00bb99ff1dab790203.png)
+
 ![](http://docs.opencv.org/2.4/_images/math/3740b66fbff95aa9dfe9b005bd6ad7f28207992b.png)
+
 ![](http://docs.opencv.org/2.4/_images/math/f882025ffbd219a8826d69c8ecab6e436c5b0b44.png)
+
 ![](http://docs.opencv.org/2.4/_images/math/a15bb80fffbb76b76ea7869a4665f35ba2915461.png)
+
 ![](http://docs.opencv.org/2.4/_images/math/35fbc56624a7f26f4f1166946578f36449526b23.png)
