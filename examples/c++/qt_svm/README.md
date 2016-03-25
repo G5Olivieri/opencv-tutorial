@@ -1,95 +1,10 @@
-
-```c++
-#include <iostream>
-#include <opencv2/opencv.hpp>
-
-using namespace cv;
-using namespace cv::ml;
-
-const std::string keys =
-        "{help      |           | print this message    }"
-        "{@image    |lena       | load image            }"
-        "{lena      |lena.jpg   | lena image            }"
-        ;
-
-int main(int argc, char *argv[])
-{
-    cv::CommandLineParser parser( argc, argv, keys);
-    parser.about("Load image and display");
-    if (parser.has("help")){
-        parser.printMessage();
-        return 0;
-    }
-
-    // Data for visual representation
-    int width = 150, height = 200;
-    Mat image = Mat::zeros(height, width, CV_8UC3);
-
-    // Set up training data
-    int labels[33] = {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1};
-    float trainingData[33][2] = {{30,155},{42,157},{32,159},{32,163},{48,163},{32,166},{45,167},{37,172},{53,172},{67,173},{45,174},{60,176},{50,177},{63,177},{58,180},{75,180},{58,183},{70,183},{63,156},{75,157},{68,160},{82,163},{70,165},{85,167},{92,169},{105,169},{80,172},{95,174},{90,176},{100,177},{105,180},{95,181},{113,184}};
-
-    Mat trainingDataMat(33, 2, CV_32FC1, trainingData);
-    Mat labelsMat(33, 1, CV_32SC1, labels);
-
-
-    // Train the SVM
-    Ptr<SVM> svm = SVM::create();
-    svm->setType(SVM::C_SVC);
-    svm->setKernel(SVM::LINEAR);
-    svm->setTermCriteria(TermCriteria(TermCriteria::MAX_ITER, 100, 1e-6));
-    svm->train(trainingDataMat, ROW_SAMPLE, labelsMat);
-
-    // Show the decision regions given by the SVM
-    Vec3b green(0,255,0), blue (255,0,0);
-    for (int i = 0; i < image.rows; ++i)
-        for (int j = 0; j < image.cols; ++j)
-        {
-            Mat sampleMat = (Mat_<float>(1,2) << j,i);
-            float response = svm->predict(sampleMat);
-
-            if (response == 1)
-                image.at<Vec3b>(i,j)  = green;
-            else if (response == -1)
-                image.at<Vec3b>(i,j)  = blue;
-        }
-
-    // Show the training data
-    int thickness = -1;
-    int lineType = 8;
-    for (int i = 0; i < trainingDataMat.rows; ++i){
-        int x = (int)trainingDataMat.at<float>(i,0);
-        int y = (int)trainingDataMat.at<float>(i,1);
-        if( i >= 18 ){
-            circle( image, Point(x,y), 2, Scalar(  0,   0,   0), thickness, lineType );
-        }else{
-            circle( image, Point(x,y), 2, Scalar(  255,   255,   255), thickness, lineType );
-        }
-
-    }
-
-    cv::Mat dstImg;
-    cv::resize(image, dstImg, cv::Size(450,600));
-    cv::flip( dstImg, dstImg, 0);
-
-    imwrite("result.png", dstImg);
-    imshow("SVM Simple Example", dstImg);
-    waitKey(0);
-
-    return 0;
-}
-
-```
-
 # SVM (Support Vector Machine)
 
-機器學習(Machine Learning)
-監督式學習(Supervised Learning)
+- 機器學習(Machine Learning)
+- 監督式學習(Supervised Learning)
 
-分類(Classification)
-回歸(Regression)
-
-
+- 分類(Classification)
+- 回歸(Regression)
 
 ### 範例：
 
@@ -105,12 +20,48 @@ int main(int argc, char *argv[])
 
 ![](http://farm2.staticflickr.com/1475/25679483150_aa3c8f9312_b.jpg)
 
+
+```c++
+Ptr<SVM> svm = SVM::create();
+svm->setType(SVM::C_SVC);
+svm->setKernel(SVM::LINEAR);
+svm->setTermCriteria(TermCriteria(TermCriteria::MAX_ITER, 100, 1e-6));
+svm->train(trainingDataMat, ROW_SAMPLE, labelsMat);
+```
+
+詳細Sample Code請參考[GitHub](https://github.com/MarcWang/opencv-tutorial/tree/master/examples/c%2B%2B/qt_svm)
+
+## OpenCV API
+
+#### `static Ptr<SVM> cv::ml::SVM::create()` 
+
+建立一個空的SVM模型
+
+
+#### `bool cv::ml::StatModel::train( InputArray samples, int layout, InputArray responses)`
+- samples = 欲訓練的資料群
+- layout = 資料的型態，可參考ml::SampleTypes
+- responses = 欲訓練的資料標籤
+
+#### `float cv::ml::StatModel::predict( InputArray samples, OutputArray results = noArray(), int flags = 0 )`
+
+- samples 欲預測的資料群
+- results The optional output matrix of results.
+- flags   The optional flags, model-dependent. See cv::ml::StatModel::Flags.
+
+
+#### ml::SampleTypes
+- ROW_SAMPLE - each training sample is a row of samples
+- COL_SAMPLE - each training sample occupies a column of samples
+
+
 ### train data
 
 CV_32FC1 浮點數型態
 
+### 參數設定
 
-### svmType
+**`svmType`**
 
 - SVM::C_SVC (100)
 - SVM::NU_SVC (101)
@@ -120,7 +71,7 @@ CV_32FC1 浮點數型態
 
 SVC代表分類(Classification)，SVR代表回歸(Regression)
 
-#### SVM::C_SVC
+**SVM::C_SVC**
 
 (C-Support Vector Classification)
 n-class classification
@@ -129,34 +80,34 @@ C類支持向量分類機。 n類分組  (n >= 2)，允許用異常值懲罰因�
 
 C = (1~)
 
-#### SVM::NU_SVC
+**SVM::NU_SVC**
 
 (nu-Support Vector Classification) 
 nu類支持向量分類機。n類似然不完全分類的分類器，参數为nu 取代C（其值在區間【0，1】中，nu越大，决策邊界越平滑）。
 
 C = (0~1)
 
-#### SVM::ONE_CLASS
+**SVM::ONE_CLASS**
 
 (Distribution Estimation) 
 
 單分類器，所有的訓練數據提取自同一個類裏，然後SVM建立了一個分界線以分割該類在特征空間中所占區域和其它類在特征空間中所占區域。
 
-#### SVM::EPS_SVR
+**SVM::EPS_SVR**
 
 (epsilon-Support Vector Regression) 
 epsilon類支持向量回歸機。訓練集中的特征向量和擬合出來的超平面的距離需要小於p。異常值懲罰因子C被采用。
 
 `p`這個參數必須大於0 ，可透過`SVM::setP(value)`設定，否則會出現`The parameter p must be positive`的錯誤訊息。
 
-#### SVM::NU_SVR
+**SVM::NU_SVR**
 
 (nu-Support Vector Regression)
 nu類支持向量回歸機。 nu代替了p。
 
 
 
-### KernelTypes 
+**`KernelTypes`**
 
 - SVM::CUSTOM (-1)
 - SVM::LINEAR (0)
@@ -167,75 +118,65 @@ nu類支持向量回歸機。 nu代替了p。
 - SVM::INTER (5)
 
 
-#### SVM::LINEAR
+**SVM::LINEAR**
 
 線性內核。沒有任何向映射至高維空間，線性區分（或回歸）在原始特征空間中被完成
 d(x,y) = x•y == (x,y)
 
-#### SVM::POLY
+**SVM::POLY**
 
 多項式內核 
 d(x,y) = (gamma*(x•y)+coef0)degree
 
-#### SVM::RBF
+**SVM::RBF**
 
 Radial basis function (RBF), a good choice in most cases
 基於徑向的函數，對於大多數情況都是一個較好的選擇
 d(x,y) = exp(-gamma*|x-y|2)
 
-#### SVM::SIGMOID
+**SVM::SIGMOID**
 
 Sigmoid函數內核
 d(x,y) = tanh(gamma*(x•y)+coef0)
 
-#### SVM::CHI2
+**SVM::CHI2**
 
 
-### degree
+**`degree`**
 
 內核函數 (default 0) (POLY)
 
-### gamma
+**`gamma`**
 
 內核函數 (default 1)(POLY / RBF / SIGMOID / CHI2)
 
-### coef0
+**`coef0`**
 
 內核函數 (default 0)(POLY / SIGMOID)
 
-### p
+**`p`**
 
 Set the epsilon in loss function of epsilon-SVR (default 0)(EPS_SVR)
 
-### C
+**`C`**
 
 Set the parameter C of C-SVC, epsilon-SVR, and nu-SVR (default 1)(C_SVC / EPS_SVR / NU_SVR)
 
-### nu
+**`nu`**
 
 set the parameter nu of nu-SVC, one-class SVM, and nu-SVR (default 0)(NU_SVC / ONE_CLASS / NU_SVR)
 
-### classWeights
+**`classWeights`**
 
 可選權重，賦給指定的類別。一般乘以C以後去影響不同類別的錯誤分類懲罰項。權重越大，某一類別的誤分類數據的懲罰項就越大。
 
-### termCrit
+**`termCrit`**
 
 SVM的迭代訓練過程的中止條件，解决部分受約束二次最優問題。
 
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-[A tutorial on support vector machines for pattern recognition](http://www.svms.org/tutorials/Burges1998.pdf)
-[LIBSVM: A Library for Support Vector Machines](http://www.csie.ntu.edu.tw/~cjlin/papers/libsvm.pdf)
+## 參考文獻
+- [A tutorial on support vector machines for pattern recognition](http://www.svms.org/tutorials/Burges1998.pdf)
+- [LIBSVM: A Library for Support Vector Machines](http://www.csie.ntu.edu.tw/~cjlin/papers/libsvm.pdf)

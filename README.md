@@ -106,7 +106,11 @@ OpenCV(Open Source Computer Vision Library)是一個集合數百種演算法的�
 - [Resize and Rotate Image using OpenCV](http://ccw1986.blogspot.tw/2012/11/opencv_18.html)
 - [Resize Image using OpenCV](http://ccw1986.blogspot.tw/2012/11/opencvresize.html)
 
+## 色彩轉換 (Color Conversion)
+-[Color Conversion using OpenCV](http://ccw1986.blogspot.tw/2012/11/opencvrgbycbcr.html)
 
+## 機器學習 (Machine Learning)
+- [SVM](http://ccw1986.blogspot.tw/2016/03/svm.html)
 
 ## Video & Image Database
 
