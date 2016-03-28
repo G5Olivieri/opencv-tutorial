@@ -2,4 +2,7 @@
 *lib
 *.jpg
 
+# Build
+*release
+*debug
 
