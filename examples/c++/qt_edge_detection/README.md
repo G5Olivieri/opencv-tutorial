@@ -53,6 +53,7 @@ cv::addWeighted( abs_grad_x, 0.5, abs_grad_y, 0.5, 0, grad );
 cv::threshold( grad, sobelImg, 100, 255, cv::THRESH_BINARY );
 ```
 
+**詳細Sample Code請參考[GitHub](https://github.com/MarcWang/opencv-tutorial/blob/master/examples/c%2B%2B/qt_edge_detection/main.cpp)**
 
 #### `void Sobel(InputArray src, OutputArray dst, int ddepth, int dx, int dy, int ksize=3, double scale=1, double delta=0, int borderType=BORDER_DEFAULT )`
 
@@ -81,6 +82,10 @@ cv::Mat laplacianImg, grad_16S;
 cv::Laplacian( grayImg, grad_16S, CV_16S, 3, 1, 0, cv::BORDER_DEFAULT);
 cv::convertScaleAbs( grad_16S, laplacianImg );
 ```
+
+
+**詳細Sample Code請參考[GitHub](https://github.com/MarcWang/opencv-tutorial/blob/master/examples/c%2B%2B/qt_edge_detection/main.cpp)**
+
 
 #### `void Laplacian(InputArray src, OutputArray dst, int ddepth, int ksize=1, double scale=1, double delta=0, int borderType=BORDER_DEFAULT )`
 
@@ -124,6 +129,10 @@ cv::cvtColor( srcImg, grayImg, cv::COLOR_BGR2GRAY );
 cv::Canny( grayImg, cannyImg, minThreshold, maxThreshold, apertureSize, L2gradient );
 
 ```
+
+
+**詳細Sample Code請參考[GitHub](https://github.com/MarcWang/opencv-tutorial/blob/master/examples/c%2B%2B/qt_edge_detection/main.cpp)**
+
 
 ####  `void Canny(InputArray image, OutputArray edges, double threshold1, double threshold2, int apertureSize=3, bool L2gradient=false )`
 
