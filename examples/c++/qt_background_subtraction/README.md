@@ -1,5 +1,7 @@
 # Background Subtraction Algorithm using OpenCV
 
+切割背景與前景有初階的直接前景背景相減，但因為串流影像隨著時間的變化，光線會有變化，所以背景也必須不斷的學習更新才可應付大部分的環境，甚至還需要過濾不必要的風吹草動或陰影之類的雜訊。OpenCV 3版本以後提供了`MOG2`和`KNN`兩個API方便大家使用。
+
 ## MOG2 Background Subtraction (Gaussian Mixture)
 - Z.Zivkovic, F. van der Heijden. "Improved adaptive Gausian mixture model for background subtraction" 2004.
 - Z.Zivkovic, F. van der Heijden. “Efficient Adaptive Density Estimation per Image Pixel for the Task of Background Subtraction” 2006.
@@ -41,6 +43,8 @@ while(1)
     cv::waitKey(30);
 }
 ```
+
+**詳細Sample Code請參考[GitHub](https://github.com/MarcWang/opencv-tutorial/blob/master/examples/c%2B%2B/qt_background_subtraction/main.cpp)**
 
 #### `Ptr<BackgroundSubtractorMOG2> createBackgroundSubtractorMOG2(int history=500, double varThreshold=16, bool detectShadows=true )`
 
@@ -104,6 +108,7 @@ while(1)
 }
 ```
 
+**詳細Sample Code請參考[GitHub](https://github.com/MarcWang/opencv-tutorial/blob/master/examples/c%2B%2B/qt_background_subtraction/main.cpp)**
 
 #### `Ptr<BackgroundSubtractorKNN> createBackgroundSubtractorKNN(int history=500, double dist2Threshold=400, bool detectShadows=true )`
 

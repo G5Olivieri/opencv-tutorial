@@ -25,18 +25,7 @@ OpenCV(Open Source Computer Vision Library)是一個集合數百種演算法的�
 - cudabgsegm. 使用CUDA的背景相減MOG
 - cudacodec. 使用CUDA的影片存取讀取
 - cudafeatures2d. 使用CUDA實現部分特徵擷取技術
-- cudafilters. Image Filtering
-- cudaimgproc. Image Processing
-- cudalegacy. Legacy support
-- cudaobjdetect. Object Detection
-- cudaoptflow. Optical Flow
-- cudastereo. Stereo Correspondence
-- cudawarping. Image Warping
-- cudev. Device layer
-- shape. Shape Distance and Matching
-- superres. Super Resolution
-- videostab. Video Stabilization
-- viz. 3D Visualizer
+...
 
 **Extra**
 - aruco. ArUco Marker Detection
@@ -49,24 +38,7 @@ OpenCV(Open Source Computer Vision Library)是一個集合數百種演算法的�
 - dpm. Deformable Part-based Models
 - face. Face Recognition
 - fuzzy. Image processing based on fuzzy mathematics
-- hdf. Hierarchical Data Format I/O routines
-- line_descriptor. Binary descriptors for lines extracted from an image
-- matlab. MATLAB Bridge
-- optflow. Optical Flow Algorithms
-- plot. Plot function for Mat data
-- reg. Image Registration
-- rgbd. RGB-Depth Processing
-- saliency. Saliency API
-- sfm. Structure From Motion
-- stereo. Stereo Correspondance Algorithms
-- structured_light. Structured Light API
-- surface_matching. Surface Matching
-- text. Scene Text Detection and Recognition
-- tracking. Tracking API
-- xfeatures2d. Extra 2D Features Framework
-- ximgproc. Extended Image Processing
-- xobjdetect. Extended object detection
-- xphoto. Additional photo processing algorithms
+...
 
 ## 下載 (Download)
 - [OpenCV Windows](https://sourceforge.net/projects/opencvlibrary/files/opencv-win/) - C++、C、Python、JAVA (最新版本3.1.0、2.4.12)
@@ -114,6 +86,7 @@ OpenCV(Open Source Computer Vision Library)是一個集合數百種演算法的�
 - [Edge Detection Algorithm using OpenCV](http://ccw1986.blogspot.tw/2016/03/edge-detection-algorithm-using-opencv.html)
 
 ## 背景相減 (Background Subtraction)
+- [Background Subtraction Algorithm using OpenCV](http://ccw1986.blogspot.tw/2016/03/background-subtraction-algorithm-using.html)
 
 ## 機器學習 (Machine Learning)
 - [SVM](http://ccw1986.blogspot.tw/2016/03/svm.html)
