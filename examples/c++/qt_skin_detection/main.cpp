@@ -127,8 +127,6 @@ int main(int argc, char *argv[])
         return -1;
     }
 
-    cv::Mat dstImg = convertBGR2HSV(srcImg);
-
     cv::Mat bgr2hsvImg, hsv2skinImg;
     cv::cvtColor(srcImg, bgr2hsvImg, cv::COLOR_BGR2HSV);
     cv::inRange(bgr2hsvImg, cv::Scalar(0,40,0), cv::Scalar(35,174,255), hsv2skinImg);
@@ -136,7 +134,6 @@ int main(int argc, char *argv[])
     cv::Mat bgr2ycrcbImg, ycrcb2skinImg;
     cv::cvtColor( srcImg, bgr2ycrcbImg, cv::COLOR_BGR2YCrCb );
     cv::inRange( bgr2ycrcbImg, cv::Scalar(80, 135, 85), cv::Scalar(255, 180, 135), ycrcb2skinImg );
-
 
     cv::imshow("Display Window", srcImg);
     cv::imshow("Display HSV Window", bgr2hsvImg);
