@@ -1,7 +1,7 @@
 TEMPLATE = app
 CONFIG += console c++11
 CONFIG -= app_bundle
-CONFIG += qt
+CONFIG -= qt
 
 SOURCES += main.cpp
 
@@ -29,7 +29,7 @@ BUILD_DIR       = $${DESTDIR}
 ## File Setting
 ############################################################
 OPENCV_DLLS = opencv_world310.dll
-IMAGE_LENA = lena.jpg
+IMAGES = lena.jpg ann.jpg patty.jpg
 
 ## Platform Setting
 ############################################################
@@ -53,7 +53,7 @@ win32-msvc2013{
             for( files, OPENCV_DLLS ):eval( QMAKE_POST_LINK += xcopy /R /Q /Y /I $$replace( OPENCV_DLL_PATH, /, \\ )\\$${files} $$replace( BUILD_DIR, /, \\ ) & )
             export(QMAKE_POST_LINK)
 
-            for( files, IMAGE_LENA ):eval( QMAKE_POST_LINK += xcopy /R /Q /Y /I $$replace( DATA_IMAGES, /, \\ )\\$${files} $$replace( BUILD_DIR, /, \\ ) & )
+            for( files, IMAGES ):eval( QMAKE_POST_LINK += xcopy /R /Q /Y /I $$replace( DATA_IMAGES, /, \\ )\\$${files} $$replace( BUILD_DIR, /, \\ ) & )
             export(QMAKE_POST_LINK)
         }
     }
