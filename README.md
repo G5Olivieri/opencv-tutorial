@@ -86,6 +86,9 @@ OpenCV(Open Source Computer Vision Library)是一個集合數百種演算法的�
 ## 邊緣偵測 (Edge Detection)
 - [Edge Detection Algorithm using OpenCV](http://ccw1986.blogspot.tw/2016/03/edge-detection-algorithm-using-opencv.html)
 
+## 輪廓偵測 (Contours Detection)
+- [Find Contours using OpenCV](http://ccw1986.blogspot.tw/2012/12/opencvcontour.html)
+
 ## 背景相減 (Background Subtraction)
 - [Background Subtraction Algorithm using OpenCV](http://ccw1986.blogspot.tw/2016/03/background-subtraction-algorithm-using.html)
 

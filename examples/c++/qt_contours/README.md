@@ -26,6 +26,8 @@ for( int i = 0; i< contours.size(); i++ )
 
 ```
 
+**詳細Sample Code請參考[GitHub](https://github.com/MarcWang/opencv-tutorial/blob/master/examples/c%2B%2B/qt_contours/main.cpp)**
+
 #### `void findContours(InputOutputArray image, OutputArrayOfArrays contours, OutputArray hierarchy, int mode, int method, Point offset=Point())`
 
 - image 輸入影像
