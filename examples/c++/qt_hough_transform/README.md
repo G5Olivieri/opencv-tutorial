@@ -9,6 +9,7 @@
 卡迪爾座標的線公式 = `y = kx + b`
 
 ![](http://docs.opencv.org/3.0-beta/_images/Hough_Lines_Tutorial_Theory_0.jpg)
+
 © from OpenCV
 
 極座標的線公式 = `r = xcosθ + ysinθ`
@@ -20,6 +21,7 @@
 兩者之間的差別在於
 
 ![](http://docs.opencv.org/3.1.0/houghlines4.png)
+
 © from OpenCV
 
 #### `void HoughLines(InputArray image, OutputArray lines, double rho, double theta, int threshold, double srn=0, double stn=0 )`
@@ -120,12 +122,23 @@ for( size_t i = 0; i < circles.size(); i++ )
 **偵測結果如下：**
 
 **原圖**
+
 ![](http://farm2.staticflickr.com/1604/25762790283_94481c645f_b.jpg)
+
 **HoughLines**
+
 ![](http://farm2.staticflickr.com/1502/25762790203_4e3f514023_b.jpg)
+
 **HoughLinesP**
+
 ![](http://farm2.staticflickr.com/1478/26092679610_a82208c022_b.jpg)
+
 **HoughCircles**
+
 ![](http://farm2.staticflickr.com/1463/25760696034_6955294329_b.jpg)
+
+
+**詳細Sample Code請參考[GitHub](https://github.com/MarcWang/opencv-tutorial/blob/master/examples/c%2B%2B/qt_hough_transform/main.cpp)**
+
 ### 更多OpenCV文章請參考：[OpenCV Tutorial (學習筆記)](http://ccw1986.blogspot.tw/2013/09/learningopencv.html)
 

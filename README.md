@@ -83,10 +83,14 @@ OpenCV(Open Source Computer Vision Library)是一個集合數百種演算法的�
 - [Color Conversion using OpenCV](http://ccw1986.blogspot.tw/2012/11/opencvrgbycbcr.html)
 - [Skin Color Detection using OpenCV](http://ccw1986.blogspot.tw/2012/12/opencvhsv-skin-color-detection.html)
 
-## 邊緣偵測 (Edge Detection)
+## 影像處理 (Image Processing)
+#### - 邊緣偵測 (Edge Detection)
 - [Edge Detection Algorithm using OpenCV](http://ccw1986.blogspot.tw/2016/03/edge-detection-algorithm-using-opencv.html)
 
-## 輪廓偵測 (Contours Detection)
+#### - 霍夫轉換 (Hough Transform)
+- [Hough Line and Circle Transform using OpenCV](http://ccw1986.blogspot.tw/2016/04/hough-transform-using-opencv.html)
+
+#### - 輪廓偵測 (Contours Detection)
 - [Find Contours using OpenCV](http://ccw1986.blogspot.tw/2012/12/opencvcontour.html)
 
 ## 背景相減 (Background Subtraction)
