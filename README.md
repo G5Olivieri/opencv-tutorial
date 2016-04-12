@@ -94,6 +94,9 @@ OpenCV(Open Source Computer Vision Library)是一個集合數百種演算法的�
 #### - 輪廓偵測 (Contours Detection)
 - [Find Contours using OpenCV](http://ccw1986.blogspot.tw/2012/12/opencvcontour.html)
 
+#### - 型態學 (Morphological Transformation)
+- [Morphological Dilation and Erosion using OpenCV](http://ccw1986.blogspot.tw/2012/11/opencverodedilate.html)
+
 ## 背景相減 (Background Subtraction)
 - [Background Subtraction Algorithm using OpenCV](http://ccw1986.blogspot.tw/2016/03/background-subtraction-algorithm-using.html)
 

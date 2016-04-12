@@ -98,7 +98,7 @@ cv::morphologyEx( srcImg, openImg, cv::MORPH_OPEN, element);
 
 ![](http://farm2.staticflickr.com/1611/25782706073_88b3da8047_b.jpg)
 
-**詳細Sample Code請參考[GitHub]()**
+**詳細Sample Code請參考[GitHub](https://github.com/MarcWang/opencv-tutorial/blob/master/examples/c%2B%2B/qt_morphological_transformations/main.cpp)**
 
 ### 更多OpenCV文章請參考：[OpenCV Tutorial (學習筆記)](http://ccw1986.blogspot.tw/2013/09/learningopencv.html)
 
