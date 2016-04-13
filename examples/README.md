@@ -3,6 +3,7 @@
 #### C++
 - qt_background_subtraction
 - qt_color_conversion
+- qt_connected_component
 - qt_contours
 - qt_edge_detection
 - qt_hough_transform

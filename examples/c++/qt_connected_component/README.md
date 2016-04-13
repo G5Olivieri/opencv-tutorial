@@ -64,7 +64,7 @@ cv::Mat labelImage;
 int nLabels = cv::connectedComponents(bw, labelImage, 8);
 ```
 
-**詳細Sample Code請參考[GitHub]()**
+**詳細Sample Code請參考[GitHub](https://github.com/MarcWang/opencv-tutorial/blob/master/examples/c%2B%2B/qt_connected_component/main.cpp)**
 
 ##### `int connectedComponentsWithStats(InputArray image, OutputArray labels, OutputArray stats, OutputArray centroids, int connectivity=8, int ltype=CV_32S)`
 
@@ -103,7 +103,7 @@ for(int label = 1; label < nLabels; ++label){
 
 ![](http://farm2.staticflickr.com/1637/26403425785_32097d1617_b.jpg)
 
-**詳細Sample Code請參考[GitHub]()**
+**詳細Sample Code請參考[GitHub](https://github.com/MarcWang/opencv-tutorial/blob/master/examples/c%2B%2B/qt_connected_component/main.cpp)**
 
 
 ### 更多OpenCV文章請參考：[OpenCV Tutorial (學習筆記)](http://ccw1986.blogspot.tw/2013/09/learningopencv.html)
