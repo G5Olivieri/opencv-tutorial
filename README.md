@@ -8,6 +8,7 @@ OpenCV(Open Source Computer Vision Library)是一個集合數百種演算法的�
 ## 模組 (Module)
 
 **Main**
+
 - core. 基本資料結構的緊湊模組，包含操作影像像素及1.0與2.0版本格式交換
 - imgproc. 影像處理模組，包含線性與非線性的影像濾波器及幾何影像的轉換(影像縮放翻轉、色彩空間轉換和直方圖操作等)
 - imgcodecs. 影像格式編碼、解碼及影像存取
@@ -28,6 +29,7 @@ OpenCV(Open Source Computer Vision Library)是一個集合數百種演算法的�
 ...
 
 **Extra**
+
 - aruco. ArUco Marker Detection
 - bgsegm. Improved Background-Foreground Segmentation Methods
 - bioinspired. Biologically inspired vision models and derivated tools
