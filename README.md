@@ -3,8 +3,8 @@
 ![opencv](http://opencv.org/wp-content/themes/opencv/images/logo.png)
 
 ## 介紹 (Introduction)
-- [introduction]()
-- [module]()
+- [introduction](https://github.com/MarcWang/opencv-tutorial/blob/master/introduction/introduction.md)
+- [module](https://github.com/MarcWang/opencv-tutorial/blob/master/introduction/module.md)
 
 ## 下載 (Download)
 - [OpenCV Windows](https://sourceforge.net/projects/opencvlibrary/files/opencv-win/) - C++、C、Python、JAVA (最新版本3.1.0、2.4.12)
