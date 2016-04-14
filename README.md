@@ -64,6 +64,10 @@
     - [Morphological Dilation and Erosion using OpenCV](http://ccw1986.blogspot.tw/2012/11/opencverodedilate.html)
     - [Connected Component Labeling using OpenCV](http://ccw1986.blogspot.tw/2016/03/connected-component-labeling-using.html)
 
+## 影像切割 (Image Segmentation)
+- 門檻值過濾 (Thresholding)
+    - [Thresholding using OpenCV](http://ccw1986.blogspot.tw/2012/11/opencvadaptive-threshold.html)
+
 ## 背景相減 (Background Subtraction)
 - [Background Subtraction Algorithm using OpenCV](http://ccw1986.blogspot.tw/2016/03/background-subtraction-algorithm-using.html)
 

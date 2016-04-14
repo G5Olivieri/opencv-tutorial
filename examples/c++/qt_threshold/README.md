@@ -1,7 +1,6 @@
 #  Thresholding using OpenCV
 
-最簡單的影像切割方法
-
+門檻值過濾算是最簡單的影像切割方法，OpenCV提供兩個API`cv::threshold`和`cv::adaptiveThreshold`讓開發者使用，`threshold`這個API必須自己設定門檻值，而`adaptiveThreshold`可以自動判斷適合的門檻值，依個人需求而決定使用哪一個。
 
 ##### `double threshold(InputArray src, OutputArray dst, double thresh, double maxval, int type)`
 
@@ -43,7 +42,7 @@ cv::threshold( grayImg, otsuImg, 0, maxVal, cv::THRESH_BINARY+cv::THRESH_OTSU );
 
 ![](http://farm2.staticflickr.com/1568/25817987034_09939280c2_b.jpg)
 
-**詳細Sample Code請參考[GitHub]()**
+**詳細Sample Code請參考[GitHub](https://github.com/MarcWang/opencv-tutorial/blob/master/examples/c%2B%2B/qt_threshold/main.cpp)**
 
 ##### `void adaptiveThreshold(InputArray src, OutputArray dst, double maxValue, int adaptiveMethod, int thresholdType, int blockSize, double C)`
 
@@ -74,7 +73,9 @@ cv::adaptiveThreshold( grayImg, adapMaenImg, maxVal, cv::ADAPTIVE_THRESH_MEAN_C,
 cv::adaptiveThreshold( grayImg, adapGaussianImg, maxVal, cv::ADAPTIVE_THRESH_GAUSSIAN_C, cv::THRESH_BINARY, 11, 2 );
 ```
 
-**詳細Sample Code請參考[GitHub]()**
+![](http://farm2.staticflickr.com/1546/25818099554_00156b3703_b.jpg)
+
+**詳細Sample Code請參考[GitHub](https://github.com/MarcWang/opencv-tutorial/blob/master/examples/c%2B%2B/qt_threshold/main.cpp)**
 
 
 ### 更多OpenCV文章請參考：[OpenCV Tutorial (學習筆記)](http://ccw1986.blogspot.tw/2013/09/learningopencv.html)

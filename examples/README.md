@@ -11,6 +11,7 @@
 - qt_morphological_transformations
 - qt_skin_detection
 - qt_svm
+- qt_threshold
 
 #### NodeJS
 
