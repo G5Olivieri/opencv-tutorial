@@ -45,6 +45,7 @@
 - [Resize and Rotate Image using OpenCV](http://ccw1986.blogspot.tw/2012/11/opencv_18.html)
 - [Resize Image using OpenCV](http://ccw1986.blogspot.tw/2012/11/opencvresize.html)
 - [Convert Image Format between QT and OpenCV](http://ccw1986.blogspot.tw/2014/05/opencvconvert-image-format-between-qt.html)
+- [Translate Image Format from RealSense to OpenCV](http://ccw1986.blogspot.tw/2015/11/realsenseopencv-translate-image-format.html)
 
 ## 色彩轉換 (Color Conversion)
 - [Color Conversion using OpenCV](http://ccw1986.blogspot.tw/2012/11/opencvrgbycbcr.html)
@@ -72,7 +73,7 @@
 - [Background Subtraction Algorithm using OpenCV](http://ccw1986.blogspot.tw/2016/03/background-subtraction-algorithm-using.html)
 
 ## 機器學習 (Machine Learning)
-- [SVM](http://ccw1986.blogspot.tw/2016/03/svm.html)
+- [SVM using OpenCV](http://ccw1986.blogspot.tw/2016/03/svm.html)
 
 ## Video & Image Database
 
