@@ -26,6 +26,7 @@
 - [Build OpenCV 2.4.8 Library on Windows using MinGW Compiler](http://ccw1986.blogspot.tw/2014/06/windowmingwopencv-248-install-opencv.html)
 - [Build OpenCV 2.4.8 Static Library on Ubuntu](http://ccw1986.blogspot.tw/2014/03/opencvbuild-opencv-static-library-on.html)
 - [Install OpenCV on Android](http://ccw1986.blogspot.tw/2012/12/androidopencv.html)
+- [Install OpenCV 3.1 with Opencv_contrib Module using CMake GUI on Windows 7](http://ccw1986.blogspot.tw/2016/04/install-opencv-31-with-opencvcontrib.html)
 
 ## 基本操作 (Base Operation)
 - [Basic Matrix Operation](http://ccw1986.blogspot.tw/2014/01/opencv-matrix-basics.html)
@@ -40,16 +41,20 @@
 - [Capture Video from File using OpenCV](http://ccw1986.blogspot.tw/2014/09/opencv-capture-video-from-file.html)
 - [Receiving RTSP stream using FFMPEG and OpenCV](http://ccw1986.blogspot.tw/2014/07/ffmpgopencvrtsp-stream-receiving-rtsp.html)
 - [IP Camera Access using OpenCV and VLC](http://ccw1986.blogspot.tw/2015/01/opencvvlcip-cam-ip-camera-access-using.html)
+- [Open Webcam using OpenCV on Python](http://ccw1986.blogspot.tw/2015/07/opencvpython-open-webcam-using-opencv.html)
 
 ## 影像操作 (Image Operation)
 - [Resize and Rotate Image using OpenCV](http://ccw1986.blogspot.tw/2012/11/opencv_18.html)
 - [Resize Image using OpenCV](http://ccw1986.blogspot.tw/2012/11/opencvresize.html)
 - [Convert Image Format between QT and OpenCV](http://ccw1986.blogspot.tw/2014/05/opencvconvert-image-format-between-qt.html)
 - [Translate Image Format from RealSense to OpenCV](http://ccw1986.blogspot.tw/2015/11/realsenseopencv-translate-image-format.html)
+- [Histogram Calculation using OpenCV](http://ccw1986.blogspot.tw/2012/12/opencvhistogram.html)
+- [Extract region of interest ROI using OpenCV](http://ccw1986.blogspot.tw/2012/12/opencvroi.html)
 
 ## 色彩轉換 (Color Conversion)
 - [Color Conversion using OpenCV](http://ccw1986.blogspot.tw/2012/11/opencvrgbycbcr.html)
 - [Skin Color Detection using OpenCV](http://ccw1986.blogspot.tw/2012/12/opencvhsv-skin-color-detection.html)
+- [Skin Detection using CvAdaptiveSkinDetector on OpneCV](http://ccw1986.blogspot.tw/2012/11/opencvadaptiveskindetector.html)
 
 ## 影像處理 (Image Processing)
 - 邊緣偵測 (Edge Detection)
@@ -65,16 +70,33 @@
     - [Morphological Dilation and Erosion using OpenCV](http://ccw1986.blogspot.tw/2012/11/opencverodedilate.html)
     - [Connected Component Labeling using OpenCV](http://ccw1986.blogspot.tw/2016/03/connected-component-labeling-using.html)
 
+## 特徵擷取 (Feature Extraction)
+- [Calculate Integral Image using OpenCV](http://ccw1986.blogspot.tw/2012/11/opencvintegral.html)
+- [HOG Feature Description using OpenCV](http://ccw1986.blogspot.tw/2013/08/opencvhogdescriptor.html)
+
 ## 影像切割 (Image Segmentation)
 - 門檻值過濾 (Thresholding)
     - [Thresholding using OpenCV](http://ccw1986.blogspot.tw/2012/11/opencvadaptive-threshold.html)
 
 ## 背景相減 (Background Subtraction)
 - [Background Subtraction Algorithm using OpenCV](http://ccw1986.blogspot.tw/2016/03/background-subtraction-algorithm-using.html)
+- [Motion History Image](http://ccw1986.blogspot.tw/2013/09/opencvmotion-history-image.html)
+
+## 物件偵測 (Object Detection)
+- 人臉偵測 (Face Detection)
+    - [Face Detection using OpenCV 2.X](http://ccw1986.blogspot.tw/2013/01/opencvface-detection.html)
 
 ## 機器學習 (Machine Learning)
 - [SVM using OpenCV](http://ccw1986.blogspot.tw/2016/03/svm.html)
+- [Character and Text Recognition using OpenCV](http://ccw1986.blogspot.tw/2015/11/opencv-api-character-and-text.html)
+
+## 其他 (Else)
+- [Extract Hand Region using Skin and Contour Detection](http://ccw1986.blogspot.tw/2013/10/opencv-extract-hand-region-using-skin.html)
+- [Get the Gravity Center of Object](http://ccw1986.blogspot.tw/2013/09/opencvget-gravity-center-of-object.html)
+- [Adjust Illuminance of Two Image from Different Camera](http://ccw1986.blogspot.tw/2013/01/opencv2compare-illuminance-of-two-image.html)
 
 ## Video & Image Database
 
 - [Big Buck Bunny](http://bbb3d.renderfarming.net/download.html)
+
+### GitHub :  [MarcWang/opencv-tutorial](https://github.com/MarcWang/opencv-tutorial)
