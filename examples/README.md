@@ -8,6 +8,7 @@
 - qt_edge_detection
 - qt_hough_transform
 - qt_human_detection
+- qt_machine_learning
 - qt_morphological_transformations
 - qt_skin_detection
 - qt_svm
@@ -16,3 +17,4 @@
 #### NodeJS
 
 #### Python
+- display_video.py
