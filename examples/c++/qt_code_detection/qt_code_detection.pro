@@ -29,7 +29,7 @@ BUILD_DIR       = $${DESTDIR}
 ## File Setting
 ############################################################
 OPENCV_DLLS = opencv_world310.dll
-IMAGES = lena.jpg contours.png
+IMAGES = lena.jpg contours.png qrcode.jpg
 
 ## Platform Setting
 ############################################################

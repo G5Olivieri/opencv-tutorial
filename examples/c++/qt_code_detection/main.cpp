@@ -4,29 +4,48 @@
 
 const std::string keys =
         "{help      |           | print this message    }"
-        "{@image    |contours   | load image            }"
+        "{@image    |qrcode     | load image            }"
         "{lena      |lena.jpg   | lena image            }"
-        "{contours  |contours.png | contours image   }"
+        "{contours  |contours.png | contours image      }"
+        "{qrcode    |qrcode.jpg |  qr code              }"
         ;
 
 
 #define MinSize 100
 
-bool chkInside()
+struct CodeMap
 {
-    return true;
+    std::vector<cv::Point> outside;
+    std::vector<cv::Point> inside;
+    cv::Point center;
+};
+
+cv::Point calCenterPoint(std::vector<cv::Point> rect)
+{
+    cv::Point centerPt;
+    int x = 0, y = 0;
+    for( int i = 0; i< rect.size(); i++ )
+    {
+        x += rect[i].x;
+        y += rect[i].y;
+    }
+    centerPt.x = x/4;
+    centerPt.y = y/4;
+    return centerPt;
 }
 
-std::vector<std::vector<cv::Point>> chkCode(std::vector<std::vector<cv::Point>> candidates)
+std::vector<CodeMap> chkCode(std::vector<std::vector<cv::Point>> candidates, int threshold)
 {
-    std::vector<std::vector<cv::Point>> codeRect;
+
+    std::vector<CodeMap> codeRect;
     int measurementError = 3;
     std::cout<<"---------------------"<<std::endl;
     for( int i = 0; i< candidates.size(); i++ )
     {
-        for( int j = 0; j< candidates.size(); j++ )
+        for( int j = i; j< candidates.size(); j++ )
         {
-
+            if( i == j )
+                continue;
             cv::Point srcPt1 = candidates[i][0];
             cv::Point srcPt2 = candidates[i][1];
             cv::Point srcPt3 = candidates[i][2];
@@ -41,26 +60,57 @@ std::vector<std::vector<cv::Point>> chkCode(std::vector<std::vector<cv::Point>> 
             double distancePt2 = cv::norm(srcPt2-dstPt2);
             double distancePt3 = cv::norm(srcPt3-dstPt3);
             double distancePt4 = cv::norm(srcPt4-dstPt4);
-//            int distancePt2 = std::abs(srcPt2.x - dstPt2.x);
-//            int distancePt3 = std::abs(srcPt3.x - dstPt3.x);
-//            int distancePt4 = std::abs(srcPt4.x - dstPt4.x);
 
-            if( std::abs( distancePt1 - distancePt3) < measurementError ){
-                if(std::abs( distancePt1 - distancePt2) < measurementError){
-                    if( std::abs( distancePt1 - distancePt4) < measurementError){
-                        codeRect.push_back(candidates[i]);
+            if( std::abs( distancePt1 - distancePt3) < measurementError && distancePt3 < threshold){
+                if(std::abs( distancePt1 - distancePt2) < measurementError && distancePt2 < threshold){
+                    if( std::abs( distancePt1 - distancePt4) < measurementError && distancePt4 < threshold){
+                        CodeMap codeMap;
+                        codeMap.outside = candidates[j];
+                        codeMap.inside = candidates[i];
+                        codeMap.center = calCenterPoint(candidates[i]);
+                        codeRect.push_back(codeMap);
                     }
                 }
             }
-
-//            std::cout<<"point1 x = "<<point1.x<<" , y = "<<point1.y<<std::endl;
-//            std::cout<<"point2 x = "<<point2.x<<" , y = "<<point2.y<<std::endl;
-//            std::cout<<"point3 x = "<<point3.x<<" , y = "<<point3.y<<std::endl;
-//            std::cout<<"point4 x = "<<point4.x<<" , y = "<<point4.y<<std::endl;
         }
     }
     return codeRect;
 }
+
+bool isRectangle(cv::Point pt1, cv::Point pt2,cv::Point pt3,cv::Point pt4)
+{
+
+    double cx,cy;
+    double dd1,dd2,dd3,dd4;
+
+    cx=(pt1.x+pt2.x+pt3.x+pt4.x)/4;
+    cy=(pt1.y+pt2.y+pt3.y+pt4.y)/4;
+
+    dd1=std::abs(cx-pt1.x)+std::abs(cy-pt1.y);
+    dd2=std::abs(cx-pt2.x)+std::abs(cy-pt2.y);
+    dd3=std::abs(cx-pt3.x)+std::abs(cy-pt3.y);
+    dd4=std::abs(cx-pt4.x)+std::abs(cy-pt4.y);
+    return dd1==dd2 && dd1==dd3 && dd1==dd4;
+}
+
+
+//bool isRectangle(double x1, double y1,
+//                 double x2, double y2,
+//                 double x3, double y3,
+//                 double x4, double y4)
+//{
+//    double cx,cy;
+//    double dd1,dd2,dd3,dd4;
+
+//    cx=(x1+x2+x3+x4)/4;
+//    cy=(y1+y2+y3+y4)/4;
+
+//    dd1=std::abs(cx-x1)+std::abs(cy-y1);
+//    dd2=std::abs(cx-x2)+std::abs(cy-y2);
+//    dd3=std::abs(cx-x3)+std::abs(cy-y3);
+//    dd4=std::abs(cx-x4)+std::abs(cy-y4);
+//    return dd1==dd2 && dd1==dd3 && dd1==dd4;
+//}
 
 int main(int argc, char *argv[])
 {
@@ -77,28 +127,30 @@ int main(int argc, char *argv[])
         file = parser.get<std::string>("lena");
     }else if( file == "contours" ){
         file = parser.get<std::string>("contours");
+    }else if( file == "qrcode" ){
+        file = parser.get<std::string>("qrcode");
     }
     srcImg = cv::imread(file, cv::IMREAD_COLOR );
     if( srcImg.empty() ){
         return -1;
     }
 
-    cv::VideoCapture capture(0);
+//    cv::VideoCapture capture(0);
 
-    while(true)
-    {
-        capture >> srcImg;
+//    while(true)
+//    {
+//        capture >> srcImg;
         cv::Mat grayImg;
         cv::cvtColor( srcImg, grayImg, cv::COLOR_BGR2GRAY );
 
-        cv::GaussianBlur(grayImg, grayImg,cv::Size(5,5),0);
+//        cv::GaussianBlur(grayImg, grayImg,cv::Size(5,5),0);
 
         cv::Mat cannyImg;
         std::vector<std::vector<cv::Point> > contours;
         std::vector<cv::Vec4i> hierarchy;
 
         cv::Canny( grayImg, cannyImg, 50, 100, 3 );
-        cv::threshold( cannyImg, cannyImg, 50, 255, cv::THRESH_BINARY);
+//        cv::threshold( cannyImg, cannyImg, 50, 255, cv::THRESH_BINARY);
         cv::findContours( cannyImg, contours, hierarchy, cv::RETR_TREE , cv::CHAIN_APPROX_SIMPLE, cv::Point(0, 0) );
 
         cv::RNG rng(12345);
@@ -126,19 +178,63 @@ int main(int argc, char *argv[])
             }
 
         }
-        std::vector<std::vector<cv::Point>> codeRect = chkCode(candidates);
+        int thresholdBound = 30;
+        std::vector<CodeMap> codeRect = chkCode(candidates, thresholdBound);
+
         for( int i = 0; i < codeRect.size(); i++ )
         {
-            for(int j = 0; j < codeRect[i].size()-1; j++)
-                cv::line(srcImg, codeRect[i][j], codeRect[i][j+1], cv::Scalar(255,0,0), 3);
+            cv::Scalar color = cv::Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
+            cv::line(srcImg, codeRect[i].outside[0], codeRect[i].outside[1], color, 3);
+            cv::line(srcImg, codeRect[i].outside[1], codeRect[i].outside[2], color, 3);
+            cv::line(srcImg, codeRect[i].outside[2], codeRect[i].outside[3], color, 3);
+            cv::line(srcImg, codeRect[i].outside[3], codeRect[i].outside[0], color, 3);
+
+//            cv::line(srcImg, codeRect[i].inside[0], codeRect[i].inside[1], color, 3);
+//            cv::line(srcImg, codeRect[i].inside[1], codeRect[i].inside[2], color, 3);
+//            cv::line(srcImg, codeRect[i].inside[2], codeRect[i].inside[3], color, 3);
+//            cv::line(srcImg, codeRect[i].inside[3], codeRect[i].inside[0], color, 3);
+
+            cv::circle(srcImg, codeRect[i].center, 3, color, 3);
+        }
+
+        bool result = false;
+        for( int i = 0; i < codeRect.size(); i++ )
+        {
+            if( result ) break;
+            for( int j = i; j < codeRect.size(); j++ )
+            {
+                if( result ) break;
+                for( int k = j; k < codeRect.size(); k++ )
+                {
+                    if( result ) break;
+                    for( int l = k; l < codeRect.size(); l++ )
+                    {
+                        if( result ) break;
+                        if(i==j||j==k||k==l)
+                            continue;
+                        if( codeRect[i].center == codeRect[j].center || codeRect[j].center == codeRect[k].center ||codeRect[k].center == codeRect[l].center)
+                            continue;
+
+                        result = isRectangle(codeRect[i].center, codeRect[j].center, codeRect[k].center, codeRect[l].center);
+                        if( result ){
+                            std::cout<<"-------------------------------------"<<std::endl;
+                            std::cout<<codeRect[i].center.x<<","<<codeRect[i].center.y<<std::endl;
+                            std::cout<<codeRect[j].center.x<<","<<codeRect[j].center.y<<std::endl;
+                            std::cout<<codeRect[k].center.x<<","<<codeRect[k].center.y<<std::endl;
+                            std::cout<<codeRect[l].center.x<<","<<codeRect[l].center.y<<std::endl;
+                        }
+                    }
+                }
+            }
+//            std::cout<<i<<std::endl;
         }
 
         cv::imshow("drawImage", drawing);
-        cv::imshow("grayImage", grayImg);
-        cv::imshow("cannyImgImage", cannyImg);
+//        cv::imshow("grayImage", grayImg);
+//        cv::imshow("cannyImgImage", cannyImg);
         cv::imshow("srcImgImage", srcImg);
 
-        cv::waitKey(30);
-    }
+        cv::waitKey(0);
+//    }
     return 0;
 }
