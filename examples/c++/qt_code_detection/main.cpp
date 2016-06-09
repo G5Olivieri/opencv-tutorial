@@ -22,7 +22,6 @@ std::vector<std::vector<cv::Point>> chkCode(std::vector<std::vector<cv::Point>> 
     std::vector<std::vector<cv::Point>> codeRect;
     int measurementError = 3;
     std::cout<<"---------------------"<<std::endl;
-    std::cout<<candidates.size()<<std::endl;
     for( int i = 0; i< candidates.size(); i++ )
     {
         for( int j = 0; j< candidates.size(); j++ )
