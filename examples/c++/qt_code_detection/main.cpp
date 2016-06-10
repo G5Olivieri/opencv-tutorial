@@ -19,6 +19,9 @@ struct CodeMap
     std::vector<cv::Point> outside;
     std::vector<cv::Point> inside;
     cv::Point center;
+    CodeMap(){
+
+    }
 };
 
 struct CodeRectangle
@@ -28,6 +31,15 @@ struct CodeRectangle
     cv::Point rightTop;
     cv::Point rightDown;
     int angle;
+    CodeRectangle(){
+        angle = 0;
+    }
+};
+
+struct CodeContour
+{
+    std::vector<std::vector<cv::Point> > contours;
+    std::vector<cv::Vec4i> hierarchy;
 };
 
 cv::Point calCenterPoint(std::vector<cv::Point> rect)
@@ -127,7 +139,7 @@ CodeRectangle calculateRectangle( std::vector<CodeMap> codeMap)
 
                         int deltaY = rect[0].y - rect[1].y;
                         int deltaX = rect[0].x - rect[1].x;
-                        int angleInDegrees = std::atan2(deltaY, deltaX) * 180 / PI;
+                        int angleInDegrees = std::atan2(deltaY, deltaX) * 180 / PI + 1;
                         if( rect[0].x < rect[1].x ){
                             angleInDegrees = angleInDegrees*(-1);
                             codeRect.leftTop = rect[0];
@@ -183,6 +195,39 @@ std::vector<std::vector<cv::Point>> findRectangle(std::vector<std::vector<cv::Po
     return candidates;
 }
 
+cv::Mat preprocessing(cv::Mat srcImg )
+{
+    cv::Mat grayImg;
+    cv::cvtColor( srcImg, grayImg, cv::COLOR_BGR2GRAY );
+    cv::Mat cannyImg;
+    cv::Canny( grayImg, cannyImg, 50, 150, 3 );
+    return cannyImg;
+}
+
+void drawContourImage(cv::Size size, std::vector<std::vector<cv::Point>> candidates)
+{
+    cv::RNG rng(12345);
+    cv::Mat drawing = cv::Mat::zeros( size, CV_8UC3 );
+    for( int i = 0; i< candidates.size(); i++ ){
+        cv::Scalar color = cv::Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
+        cv::drawContours( drawing, candidates, i, color, 2, 8);
+    }
+    cv::imshow("drawImage", drawing);
+}
+
+void drawCodeMapImage(cv::Mat srcImg, std::vector<CodeMap> codeRect)
+{
+    cv::RNG rng(12345);
+    for( int i = 0; i < codeRect.size(); i++ ){
+        cv::Scalar color = cv::Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
+        cv::line(srcImg, codeRect[i].outside[0], codeRect[i].outside[1], color, 3);
+        cv::line(srcImg, codeRect[i].outside[1], codeRect[i].outside[2], color, 3);
+        cv::line(srcImg, codeRect[i].outside[2], codeRect[i].outside[3], color, 3);
+        cv::line(srcImg, codeRect[i].outside[3], codeRect[i].outside[0], color, 3);
+        cv::circle(srcImg, codeRect[i].center, 3, color, 3);
+    }
+}
+
 int main(int argc, char *argv[])
 {
     cv::CommandLineParser parser( argc, argv, keys);
@@ -206,51 +251,52 @@ int main(int argc, char *argv[])
         return -1;
     }
 
-//    cv::VideoCapture capture(0);
+    cv::VideoCapture capture(0);
 
-//    while(true)
-//    {
-//        capture >> srcImg;
-        cv::Mat grayImg;
-        cv::cvtColor( srcImg, grayImg, cv::COLOR_BGR2GRAY );
-        cv::Mat cannyImg;
-        std::vector<std::vector<cv::Point> > contours;
-        std::vector<cv::Vec4i> hierarchy;
+    while(true)
+    {
+        capture >> srcImg;
 
-        cv::Canny( grayImg, cannyImg, 50, 150, 3 );
-        cv::findContours( cannyImg, contours, hierarchy, cv::RETR_TREE , cv::CHAIN_APPROX_SIMPLE, cv::Point(0, 0) );
+        cv::Mat cannyImg = preprocessing(srcImg);
+
+        CodeContour codeContour;
+        cv::findContours( cannyImg, codeContour.contours, codeContour.hierarchy, cv::RETR_TREE , cv::CHAIN_APPROX_SIMPLE, cv::Point(0, 0) );
 
         std::vector<std::vector<cv::Point>> candidates;
-        candidates = findRectangle(contours, hierarchy);
-        cv::RNG rng(12345);
-        cv::Mat drawing = cv::Mat::zeros( cannyImg.size(), CV_8UC3 );
-        for( int i = 0; i< candidates.size(); i++ ){
-            cv::Scalar color = cv::Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
-            cv::drawContours( drawing, candidates, i, color, 2, 8);
-        }
+        candidates = findRectangle(codeContour.contours, codeContour.hierarchy);
+        drawContourImage(srcImg.size(), candidates);
 
         int thresholdBound = 30;
         std::vector<CodeMap> codeRect = chkCode(candidates, thresholdBound);
-
-        for( int i = 0; i < codeRect.size(); i++ ){
-            cv::Scalar color = cv::Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
-            cv::line(srcImg, codeRect[i].outside[0], codeRect[i].outside[1], color, 3);
-            cv::line(srcImg, codeRect[i].outside[1], codeRect[i].outside[2], color, 3);
-            cv::line(srcImg, codeRect[i].outside[2], codeRect[i].outside[3], color, 3);
-            cv::line(srcImg, codeRect[i].outside[3], codeRect[i].outside[0], color, 3);
-            cv::circle(srcImg, codeRect[i].center, 3, color, 3);
-        }
+//        drawCodeMapImage(srcImg, codeRect);
 
         CodeRectangle mainRect = calculateRectangle(codeRect);
-        cv::Mat dst = rotate(srcImg, mainRect.angle);
+        cv::Mat rotateImg = rotate(srcImg, mainRect.angle);
 
-        cv::imshow("rotateImage", dst);
-        cv::imshow("drawImage", drawing);
-//        cv::imshow("grayImage", grayImg);
-//        cv::imshow("cannyImgImage", cannyImg);
         cv::imshow("srcImgImage", srcImg);
 
-        cv::waitKey(0);
-//    }
+
+
+        cv::Mat cannyImg2 = preprocessing(rotateImg);
+
+        CodeContour codeContour2;
+        cv::findContours( cannyImg2, codeContour2.contours, codeContour2.hierarchy, cv::RETR_TREE , cv::CHAIN_APPROX_SIMPLE, cv::Point(0, 0) );
+
+        std::vector<std::vector<cv::Point>> candidates2;
+        candidates2 = findRectangle(codeContour2.contours, codeContour2.hierarchy);
+        drawContourImage(rotateImg.size(), candidates2);
+
+        std::vector<CodeMap> codeRect2 = chkCode(candidates2, 30);
+        drawCodeMapImage(rotateImg, codeRect2);
+
+        CodeRectangle mainRect2 = calculateRectangle(codeRect2);
+        cv::imshow("rotateImage", rotateImg);
+
+//        cv::Mat Marc_ROI;
+//        Marc_ROI = rotateImg(cv::Rect(mainRect2.leftTop, mainRect2.rightDown));
+//        cv::imshow("Marc_ROI", Marc_ROI);
+
+        cv::waitKey(33);
+    }
     return 0;
 }
