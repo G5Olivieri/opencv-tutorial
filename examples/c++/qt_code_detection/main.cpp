@@ -7,17 +7,27 @@ const std::string keys =
         "{@image    |qrcode     | load image            }"
         "{lena      |lena.jpg   | lena image            }"
         "{contours  |contours.png | contours image      }"
-        "{qrcode    |qrcode.jpg |  qr code              }"
+        "{qrcode    |rotateCode.jpg |  qr code              }"
         ;
 
 
 #define MinSize 100
+#define PI 3.14
 
 struct CodeMap
 {
     std::vector<cv::Point> outside;
     std::vector<cv::Point> inside;
     cv::Point center;
+};
+
+struct CodeRectangle
+{
+    cv::Point leftTop;
+    cv::Point leftDown;
+    cv::Point rightTop;
+    cv::Point rightDown;
+    int angle;
 };
 
 cv::Point calCenterPoint(std::vector<cv::Point> rect)
@@ -38,12 +48,9 @@ std::vector<CodeMap> chkCode(std::vector<std::vector<cv::Point>> candidates, int
 {
 
     std::vector<CodeMap> codeRect;
-    int measurementError = 3;
-    std::cout<<"---------------------"<<std::endl;
-    for( int i = 0; i< candidates.size(); i++ )
-    {
-        for( int j = i; j< candidates.size(); j++ )
-        {
+    int measurementError = 5;
+    for( int i = 0; i< candidates.size(); i++ ){
+        for( int j = i; j< candidates.size(); j++ ){
             if( i == j )
                 continue;
             cv::Point srcPt1 = candidates[i][0];
@@ -79,38 +86,102 @@ std::vector<CodeMap> chkCode(std::vector<std::vector<cv::Point>> candidates, int
 
 bool isRectangle(cv::Point pt1, cv::Point pt2,cv::Point pt3,cv::Point pt4)
 {
+    int distPt13 = std::abs(pt1.x-pt3.x) + std::abs(pt1.y-pt3.y);
+    int distPt24 = std::abs(pt2.x-pt4.x) + std::abs(pt2.y-pt4.y);
+    int distPt12 = std::abs(pt1.x-pt2.x) + std::abs(pt1.y-pt2.y);
+    int distPt34 = std::abs(pt3.x-pt4.x) + std::abs(pt3.y-pt4.y);
+    return distPt13==distPt24 && distPt12==distPt34;
+}
 
-    double cx,cy;
-    double dd1,dd2,dd3,dd4;
+bool compare(const cv::Point &pt1, const cv::Point &pt2)
+{
+    return pt1.y > pt2.y;
+}
 
-    cx=(pt1.x+pt2.x+pt3.x+pt4.x)/4;
-    cy=(pt1.y+pt2.y+pt3.y+pt4.y)/4;
+void arrangeRectanglePoints(std::vector<cv::Point> vec)
+{
+    std::sort(vec.begin(), vec.end(), compare);
+}
 
-    dd1=std::abs(cx-pt1.x)+std::abs(cy-pt1.y);
-    dd2=std::abs(cx-pt2.x)+std::abs(cy-pt2.y);
-    dd3=std::abs(cx-pt3.x)+std::abs(cy-pt3.y);
-    dd4=std::abs(cx-pt4.x)+std::abs(cy-pt4.y);
-    return dd1==dd2 && dd1==dd3 && dd1==dd4;
+CodeRectangle calculateRectangle( std::vector<CodeMap> codeMap)
+{
+    CodeRectangle codeRect;
+    bool result = false;
+    for( int i = 0; i < codeMap.size(); i++ ){
+        for( int j = i; j < codeMap.size(); j++ ){
+            for( int k = j; k < codeMap.size(); k++ ){
+                for( int l = k; l < codeMap.size(); l++ ){
+                    if(i==j||j==k||k==l)
+                        continue;
+                    if( codeMap[i].center == codeMap[j].center || codeMap[j].center == codeMap[k].center ||codeMap[k].center == codeMap[l].center)
+                        continue;
+
+                    result = isRectangle(codeMap[i].center, codeMap[j].center, codeMap[k].center, codeMap[l].center);
+                    if( result ){
+                        std::vector<cv::Point> rect;
+                        rect.push_back(codeMap[i].center);
+                        rect.push_back(codeMap[j].center);
+                        rect.push_back(codeMap[k].center);
+                        rect.push_back(codeMap[l].center);
+                        arrangeRectanglePoints(rect);
+
+                        int deltaY = rect[0].y - rect[1].y;
+                        int deltaX = rect[0].x - rect[1].x;
+                        int angleInDegrees = std::atan2(deltaY, deltaX) * 180 / PI;
+                        if( rect[0].x < rect[1].x ){
+                            angleInDegrees = angleInDegrees*(-1);
+                            codeRect.leftTop = rect[0];
+                            codeRect.rightTop = rect[1];
+                        }else{
+                            codeRect.leftTop = rect[1];
+                            codeRect.rightTop = rect[0];
+                        }
+                        if( rect[2].x < rect[3].x ){
+                            codeRect.leftDown = rect[2];
+                            codeRect.rightDown = rect[3];
+                        }else{
+                            codeRect.leftDown = rect[3];
+                            codeRect.rightDown = rect[2];
+                        }
+                        codeRect.angle = angleInDegrees;
+                        return codeRect;
+                    }
+                }
+            }
+        }
+    }
+
+    return codeRect;
 }
 
 
-//bool isRectangle(double x1, double y1,
-//                 double x2, double y2,
-//                 double x3, double y3,
-//                 double x4, double y4)
-//{
-//    double cx,cy;
-//    double dd1,dd2,dd3,dd4;
+cv::Mat rotate(cv::Mat src, double angle)
+{
+    cv::Mat dst;
+    cv::Point2f pt(src.cols/2., src.rows/2.);
+    cv::Mat r = cv::getRotationMatrix2D(pt, angle, 1.0);
+    cv::warpAffine(src, dst, r, cv::Size(src.cols, src.rows));
+    return dst;
+}
 
-//    cx=(x1+x2+x3+x4)/4;
-//    cy=(y1+y2+y3+y4)/4;
+std::vector<std::vector<cv::Point>> findRectangle(std::vector<std::vector<cv::Point> > contours, std::vector<cv::Vec4i> hierarchy)
+{
+    std::vector<cv::Point> approx;
+    std::vector<std::vector<cv::Point>> candidates;
+    for( int i = 0; i< contours.size(); i++ ){
+        if( hierarchy[i][3] == -1 )
+            continue;
 
-//    dd1=std::abs(cx-x1)+std::abs(cy-y1);
-//    dd2=std::abs(cx-x2)+std::abs(cy-y2);
-//    dd3=std::abs(cx-x3)+std::abs(cy-y3);
-//    dd4=std::abs(cx-x4)+std::abs(cy-y4);
-//    return dd1==dd2 && dd1==dd3 && dd1==dd4;
-//}
+        cv::approxPolyDP(cv::Mat(contours[i]), approx, cv::arcLength(cv::Mat(contours[i]), true)*0.02, true);
+        if (std::fabs(cv::contourArea(contours[i])) < MinSize || !cv::isContourConvex(approx))
+            continue;
+
+        if (approx.size() == 4 )
+            candidates.push_back(approx);
+
+    }
+    return candidates;
+}
 
 int main(int argc, char *argv[])
 {
@@ -142,93 +213,38 @@ int main(int argc, char *argv[])
 //        capture >> srcImg;
         cv::Mat grayImg;
         cv::cvtColor( srcImg, grayImg, cv::COLOR_BGR2GRAY );
-
-//        cv::GaussianBlur(grayImg, grayImg,cv::Size(5,5),0);
-
         cv::Mat cannyImg;
         std::vector<std::vector<cv::Point> > contours;
         std::vector<cv::Vec4i> hierarchy;
 
-        cv::Canny( grayImg, cannyImg, 50, 100, 3 );
-//        cv::threshold( cannyImg, cannyImg, 50, 255, cv::THRESH_BINARY);
+        cv::Canny( grayImg, cannyImg, 50, 150, 3 );
         cv::findContours( cannyImg, contours, hierarchy, cv::RETR_TREE , cv::CHAIN_APPROX_SIMPLE, cv::Point(0, 0) );
 
+        std::vector<std::vector<cv::Point>> candidates;
+        candidates = findRectangle(contours, hierarchy);
         cv::RNG rng(12345);
         cv::Mat drawing = cv::Mat::zeros( cannyImg.size(), CV_8UC3 );
-        std::vector<cv::Point> approx;
-
-
-        std::vector<std::vector<cv::Point>> candidates;
-        for( int i = 0; i< contours.size(); i++ )
-        {
-            if( hierarchy[i][3] == -1 ){
-                continue;
-            }
-
-            cv::approxPolyDP(cv::Mat(contours[i]), approx, cv::arcLength(cv::Mat(contours[i]), true)*0.02, true);
-
-            if (std::fabs(cv::contourArea(contours[i])) < MinSize || !cv::isContourConvex(approx))
-                continue;
-
-            if (approx.size() == 4 )
-            {
-                cv::Scalar color = cv::Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
-                cv::drawContours( drawing, contours, i, color, 2, 8, hierarchy, 0, cv::Point() );
-                candidates.push_back(approx);
-            }
-
+        for( int i = 0; i< candidates.size(); i++ ){
+            cv::Scalar color = cv::Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
+            cv::drawContours( drawing, candidates, i, color, 2, 8);
         }
+
         int thresholdBound = 30;
         std::vector<CodeMap> codeRect = chkCode(candidates, thresholdBound);
 
-        for( int i = 0; i < codeRect.size(); i++ )
-        {
+        for( int i = 0; i < codeRect.size(); i++ ){
             cv::Scalar color = cv::Scalar( rng.uniform(0, 255), rng.uniform(0,255), rng.uniform(0,255) );
             cv::line(srcImg, codeRect[i].outside[0], codeRect[i].outside[1], color, 3);
             cv::line(srcImg, codeRect[i].outside[1], codeRect[i].outside[2], color, 3);
             cv::line(srcImg, codeRect[i].outside[2], codeRect[i].outside[3], color, 3);
             cv::line(srcImg, codeRect[i].outside[3], codeRect[i].outside[0], color, 3);
-
-//            cv::line(srcImg, codeRect[i].inside[0], codeRect[i].inside[1], color, 3);
-//            cv::line(srcImg, codeRect[i].inside[1], codeRect[i].inside[2], color, 3);
-//            cv::line(srcImg, codeRect[i].inside[2], codeRect[i].inside[3], color, 3);
-//            cv::line(srcImg, codeRect[i].inside[3], codeRect[i].inside[0], color, 3);
-
             cv::circle(srcImg, codeRect[i].center, 3, color, 3);
         }
 
-        bool result = false;
-        for( int i = 0; i < codeRect.size(); i++ )
-        {
-            if( result ) break;
-            for( int j = i; j < codeRect.size(); j++ )
-            {
-                if( result ) break;
-                for( int k = j; k < codeRect.size(); k++ )
-                {
-                    if( result ) break;
-                    for( int l = k; l < codeRect.size(); l++ )
-                    {
-                        if( result ) break;
-                        if(i==j||j==k||k==l)
-                            continue;
-                        if( codeRect[i].center == codeRect[j].center || codeRect[j].center == codeRect[k].center ||codeRect[k].center == codeRect[l].center)
-                            continue;
+        CodeRectangle mainRect = calculateRectangle(codeRect);
+        cv::Mat dst = rotate(srcImg, mainRect.angle);
 
-                        result = isRectangle(codeRect[i].center, codeRect[j].center, codeRect[k].center, codeRect[l].center);
-                        if( result ){
-                            std::cout<<"-------------------------------------"<<std::endl;
-                            std::cout<<codeRect[i].center.x<<","<<codeRect[i].center.y<<std::endl;
-                            std::cout<<codeRect[j].center.x<<","<<codeRect[j].center.y<<std::endl;
-                            std::cout<<codeRect[k].center.x<<","<<codeRect[k].center.y<<std::endl;
-                            std::cout<<codeRect[l].center.x<<","<<codeRect[l].center.y<<std::endl;
-                        }
-                    }
-                }
-            }
-//            std::cout<<i<<std::endl;
-        }
-
+        cv::imshow("rotateImage", dst);
         cv::imshow("drawImage", drawing);
 //        cv::imshow("grayImage", grayImg);
 //        cv::imshow("cannyImgImage", cannyImg);
