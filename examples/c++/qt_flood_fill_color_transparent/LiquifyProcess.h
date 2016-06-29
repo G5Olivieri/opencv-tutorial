@@ -8,6 +8,7 @@ public:
     LiquifyProcess();
 
     void process(cv::Mat srcMat, std::vector<cv::Point> regions, cv::Scalar color);
+    cv::Mat toTransparent(cv::Mat srcMat, cv::Point bgPoint);
 };
 
 #endif // LIQUIFYPROCESS_H

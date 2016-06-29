@@ -52,8 +52,12 @@ int main(int argc, char *argv[])
     liquifyProc.process(srcImg, redRegions, RedColor);
     liquifyProc.process(srcImg, greenRegions, GreenColor);
 
+    cv::Mat dstMat = liquifyProc.toTransparent(srcImg, cv::Point(1,100));
+    cv::imwrite("source.png", srcImg);
+    cv::imwrite("transparent.png", dstMat);
 
     cv::imshow("Display Windows", srcImg );
+    cv::imshow("Display Transparent Windows", dstMat );
     cv::waitKey(0);
 
     return 0;
