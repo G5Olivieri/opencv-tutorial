@@ -20,10 +20,6 @@ cv::Mat LiquifyProcess::toTransparent(cv::Mat srcMat, cv::Point bgPoint)
     int nRows = srcMat.rows;
     int nCols = srcMat.cols;
 
-//    uchar* data = srcMat.ptr<uchar>(bgPoint.y);
-//    int blue = data[nChannels*bgPoint.x + 0];
-//    int green = data[nChannels*bgPoint.x + 1];
-//    int red = data[nChannels*bgPoint.x + 2];
 
     cv::Vec3b pixel = srcMat.at<cv::Vec3b>(bgPoint.y, bgPoint.x);
     int blue = pixel[0];
