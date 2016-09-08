@@ -126,5 +126,19 @@ while(1)
 
 - `backgroundImage` 取得目前建立的背景模型影像
 
+**MOG**
+
+An improved adaptive background mixture model for real-time tracking with shadow detection
+ - P. KadewTraKuPong and R. Bowden in 2001
+
+**MOG2**
+
+Improved adaptive Gausian mixture model for background subtraction
+ - Z.Zivkovic in 2004
+
+Efficient Adaptive Density Estimation per Image Pixel for the Task of Background Subtraction
+ - Z.Zivkovic in 2006
+
+
 ### 更多OpenCV文章請參考：[OpenCV Tutorial (學習筆記)](http://ccw1986.blogspot.tw/2013/09/learningopencv.html)
 
