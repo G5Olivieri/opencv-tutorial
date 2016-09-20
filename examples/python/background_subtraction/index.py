@@ -5,10 +5,11 @@ import cv2
 class BackgroundSubtractor:
 
     def __init__(self):
-        history = 500
-        varThreshold = 30
+        history = 1500
+        varThreshold = 60
         detectShadows = False
-        self.detector = cv2.createBackgroundSubtractorMOG2(history, varThreshold, detectShadows)
+        self.detector = cv2.createBackgroundSubtractorMOG2(
+            history, varThreshold, detectShadows)
 
     def process(self, frame):
         fgmask = self.detector.apply(frame)
@@ -32,10 +33,20 @@ class MediaProcessor:
             ret, frame = video.read()
 
             fgmask = self.detector.process(frame)
-            
+
             im2, contours, hierarchy = cv2.findContours(
                 fgmask.copy(), cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
-            cv2.drawContours(frame, contours, -1, (0, 255, 0), 3)
+
+            areaArray = []
+            for i, c in enumerate(contours):
+                area = cv2.contourArea(c)
+                areaArray.append(area)
+
+            sorteddata = sorted(contours, key = cv2.contourArea, reverse = True)[:10]
+
+            if len(sorteddata) > 1:
+            	largestcontour = sorteddata[0]
+            	cv2.drawContours(frame, largestcontour, -1, (0, 255, 0), 3)
 
             cv2.imshow('fgmask', fgmask)
             cv2.imshow('frame', frame)
