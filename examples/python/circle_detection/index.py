@@ -10,13 +10,15 @@ class HoughCircle:
     def process(self, frame):
 
         grayImg = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        param1 = 50
-        param2 = 30
-        minRadius = 0
-        maxRadius = 0
         grayImg = cv2.medianBlur(grayImg, 5)
+        cannyImg = cv2.Canny(grayImg, threshold1=30, threshold2=90)
+        cv2.imshow('cannyImg', cannyImg)
+        # kernel = np.ones((3, 3), np.uint8)
+        # dilateImg = cv2.dilate(cannyImg, kernel)
+        # erodeImg = cv2.erode(dilateImg, kernel)
+        # cv2.imshow('dilateImg', erodeImg)
         circles = cv2.HoughCircles(
-            grayImg, cv2.HOUGH_GRADIENT, 1, 20)
+            grayImg, cv2.HOUGH_GRADIENT, dp=1, minDist=50, param1=50, param2=100, minRadius=0, maxRadius=0)
 
         if circles is not None:
             circles = np.uint16(np.around(circles))
@@ -39,7 +41,7 @@ class MediaProcessor:
             ret, frame = video.read()
 
             srcImg = self.detector.process(frame)
-            
+
             cv2.imshow('frame', frame)
             cv2.imshow('srcImg', srcImg)
             cv2.waitKey(33)
