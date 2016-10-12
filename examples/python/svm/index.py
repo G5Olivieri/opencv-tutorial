@@ -4,6 +4,7 @@ import numpy as np
 from libs.svm import SVMManager
 from libs.hog import HOGManager
 
+env = 'development'
 
 def load_files(folder):
     files = []
@@ -62,30 +63,63 @@ class MediaProcessor:
         svmMgr.train(labelData, trainData)
         hogMgr = HOGManager()
 
-        video = cv2.VideoCapture(0)
+        video = cv2.VideoCapture('C:/Users/user/Desktop/test/3_2016-10-07_16-24-43.mp4')
 
+        frame_index = 0
         while(True):
             ret, frame = video.read()
+            frame_index += 1
+            if frame_index < 60:
+                continue
 
+            frame = cv2.resize(frame, (640,480))
             imgshape = frame.shape
-            sx = imgshape[1]/2-100
-            sy = imgshape[0]/2-100
-            ex = imgshape[1]/2+100
-            ey = imgshape[0]/2+100
+            center_image_x = imgshape[1]/2
+            center_image_y = imgshape[0]/2
+            roi_range = 100
+            search_shift = 12
+            search_stride = 8
+            default_shift = (search_shift/2)*search_stride
+            begin_leftTop_x = center_image_x-roi_range-default_shift
+            begin_leftTop_y = center_image_y-roi_range-default_shift
+            begin_rightDown_x = center_image_x+roi_range-default_shift
+            begin_rightDown_y = center_image_y+roi_range-default_shift
+            end_leftTop_x = center_image_x-roi_range+default_shift
+            end_leftTop_y = center_image_y-roi_range+default_shift
+            end_rightDown_x = center_image_x+roi_range+default_shift
+            end_rightDown_y = center_image_y+roi_range+default_shift
 
-            roi = frame[sy:ey, sx:ex]
-            
-            grayImg = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
-            testHist = hogMgr.compute(grayImg)
-            result = svmMgr.predict(testHist)
-            label = result[1][0][0]
-            if label == -1.0:
-                cv2.rectangle(frame, (sx, sy), (ex, ey), (0, 0, 255), 3)
-            else:
-                cv2.rectangle(frame, (sx, sy), (ex, ey), (0, 255, 0), 3)
+            count = 0
+            for i in range(search_shift):
+                for j in range(search_shift):
+                    leftTop_x = begin_leftTop_x+j*search_stride
+                    leftTop_y = begin_leftTop_y+i*search_stride
+                    rightDown_x = begin_rightDown_x+j*search_stride
+                    rightDown_y = begin_rightDown_y+i*search_stride
+                    # print leftTop_x, leftTop_y, rightDown_x, rightDown_y
+                    image_roi = frame[leftTop_y:rightDown_y, leftTop_x:rightDown_x]
+                    image_gray = cv2.cvtColor(image_roi, cv2.COLOR_BGR2GRAY)
+                    feature = hogMgr.compute(image_gray)
+                    result = svmMgr.predict(feature)
+                    label = result[1][0][0]
+                    
+                    if env is 'development':
+                        image_draw = frame.copy()
+                        cv2.rectangle(image_draw, (begin_leftTop_x, begin_leftTop_y), (end_rightDown_x, end_rightDown_y), (255, 0, 0), 3)
+                        if label == -1.0:
+                            cv2.rectangle(image_draw, (leftTop_x, leftTop_y), (rightDown_x, rightDown_y), (0, 0, 255), 3)
+                        else:
+                            count += 1
+                            cv2.rectangle(image_draw, (leftTop_x, leftTop_y), (rightDown_x, rightDown_y), (0, 255, 0), 3)
 
+                        cv2.imshow('search progress', image_draw)
+                        cv2.waitKey(10)
+                    else:
+                        if label != -1.0:
+                            count += 1
+
+            print 'detect' , count
             cv2.imshow('frame', frame)
-            cv2.imshow('roi', roi)
             cv2.waitKey(33)
 
         video.release()
