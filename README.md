@@ -89,6 +89,7 @@
 ## 機器學習 (Machine Learning)
 - [SVM using OpenCV](http://ccw1986.blogspot.tw/2016/03/svm.html)
 - [Character and Text Recognition using OpenCV](http://ccw1986.blogspot.tw/2015/11/opencv-api-character-and-text.html)
+- [Tutorial: OpenCV haartraining (Rapid Object Detection With A Cascade of Boosted Classifiers Based on Haar-like Features)](http://note.sonots.com/SciSoftware/haartraining.html)
 
 ## 其他 (Else)
 - [Extract Hand Region using Skin and Contour Detection](http://ccw1986.blogspot.tw/2013/10/opencv-extract-hand-region-using-skin.html)
