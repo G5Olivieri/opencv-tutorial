@@ -1,3 +1,10 @@
+
+<h1 align="center">
+  <img src="https://raw.githubusercontent.com/MarcWang/opencv-tutorial/master/images/qrcode.bmp" alt="Marc" height="300">
+   <br>
+</h1>
+
+***
 # Opencv-Tutorial
 
 ![opencv](http://opencv.org/wp-content/themes/opencv/images/logo.png)
